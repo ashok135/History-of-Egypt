@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: 'Cinzel', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-mono: 'SFMono-Regular', Consolas, monospace;
+
+  --color-bg-color: #FAF9F6;
+  --color-text-dark: #1F1E1A;
+  --color-text-muted: #6E6C66;
+  --color-gold: #C5A880;
+  --color-gold-dark: #A3845C;
+  --color-gold-opaque: rgba(197, 168, 128, 0.15);
+  --color-border-color: rgba(31, 30, 26, 0.08);
+  --color-border-light: rgba(197, 168, 128, 0.2);
+  
+  --animate-pulse-glow: pulseGlow 1.5s infinite;
+  --animate-sweep: sweep 3.5s linear infinite;
+
+  @keyframes pulseGlow {
+    0%, 100% {
+      opacity: 0.4;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+  }
+
+  @keyframes sweep {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(300px);
+    }
+  }
+}
+
+
+
+/* Global modifications */
+body {
+  overflow-x: hidden;
+  background-color: var(--color-bg-color);
+  color: var(--color-text-dark);
+  font-family: var(--font-sans);
+}
+
+/* Premium custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg-color);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold-opaque);
+  border-radius: 4px;
+}
+/* Spotlight Reveal Custom Styles */
+.spotlight-container {
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform;
+}
+
+.spotlight-container:hover {
+  transform: scale(1.05);
+  cursor: none; /* Hide default cursor to use custom dot */
+}
+
+.spotlight-gold-img {
+  opacity: 0;
+  pointer-events: none; /* Make sure it doesn't block mouse movements */
+  /* 60px radius circle = 120px diameter circular spotlight */
+  -webkit-mask-image: radial-gradient(circle 60px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, rgba(0,0,0,0.65) 60%, transparent 100%);
+  mask-image: radial-gradient(circle 60px at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, rgba(0,0,0,0.65) 60%, transparent 100%);
+  transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.spotlight-container:hover .spotlight-gold-img {
+  opacity: 1;
+}
+
+/* Custom mouse cursor dot */
+.spotlight-cursor-dot {
+  position: absolute;
+  left: var(--mouse-x, 50%);
+  top: var(--mouse-y, 50%);
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-text-dark);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 20;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.spotlight-container:hover .spotlight-cursor-dot {
+  opacity: 1;
+}
