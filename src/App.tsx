@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import ScrollSequence from './components/ScrollSequence'
+import Interactive3DGrid from './components/Interactive3DGrid'
 
 interface PharaohDetails {
   name: string;
@@ -14,7 +16,6 @@ interface EraData {
 }
 
 export default function App() {
-  const [selectedDepth, setSelectedDepth] = useState<number>(35);
   const [activeEra, setActiveEra] = useState<number>(0);
   const [subscribed, setSubscribed] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
@@ -103,13 +104,6 @@ export default function App() {
     }
   };
 
-  const getAnomalyLabel = (depth: number) => {
-    if (depth < 15) return "Surface Layer: Windblown sand and limestone fragments. No anomalies.";
-    if (depth >= 15 && depth < 30) return "Upper Chamber Cavities: Minor voids detected. Likely access shafts or structural pressure-release channels.";
-    if (depth >= 30 && depth < 40) return "CRITICAL ANOMALY: Rectangular void detected, 14m x 8m. Significant metallic/dense stone readings.";
-    return "Deep Bedrock: Dense granite basement. Tectonic fracturing detected, no artificial chambers.";
-  };
-
   return (
     <div className="relative w-full min-h-screen bg-bg-color z-10">
       {/* Background aesthetic shapes */}
@@ -127,7 +121,6 @@ export default function App() {
         </div>
         <nav className="hidden md:flex gap-10">
           <a href="#hero" className="text-[11px] font-semibold tracking-[2px] text-text-muted hover:text-text-dark transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-gold after:transition-all after:duration-300 hover:after:w-full">PHARAOH</a>
-          <a href="#scans" className="text-[11px] font-semibold tracking-[2px] text-text-muted hover:text-text-dark transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-gold after:transition-all after:duration-300 hover:after:w-full">RADAR</a>
           <a href="#timeline" className="text-[11px] font-semibold tracking-[2px] text-text-muted hover:text-text-dark transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-gold after:transition-all after:duration-300 hover:after:w-full">CHRONICLES</a>
           <a href="#gallery" className="text-[11px] font-semibold tracking-[2px] text-text-muted hover:text-text-dark transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-gold after:transition-all after:duration-300 hover:after:w-full">COLLECTIONS</a>
         </nav>
@@ -139,6 +132,9 @@ export default function App() {
 
       {/* Hero Section */}
       <section id="hero" className="relative min-h-[700px] md:h-screen w-full flex flex-col justify-center items-center px-6 md:px-[60px] py-24 md:py-0 z-10 overflow-hidden box-border">
+        {/* Interactive 3D Tile Grid Background */}
+        <Interactive3DGrid />
+
         {/* Large background typography behind the image */}
         <div className="absolute w-full text-center z-0 select-none pointer-events-none">
           <h1 className="font-serif text-[14vw] font-black text-[rgba(31,30,26,0.035)] tracking-[0.12em] leading-none uppercase">PHARAOH</h1>
@@ -176,8 +172,8 @@ export default function App() {
           <p className="font-serif text-[24px] leading-tight text-text-dark font-medium">Preserving relics</p>
           <p className="font-serif text-[24px] leading-tight text-text-dark font-medium">beyond</p>
           <p className="font-serif text-[24px] leading-tight text-gold-dark font-medium italic">time's reach.</p>
-          <a href="#scans" className="group/link inline-flex items-center gap-2 mt-[15px] font-mono text-[9px] font-bold tracking-[2px] text-text-muted transition-colors duration-300 hover:text-gold-dark">
-            EXPLORE ARCHIVE TELEMETRY 
+          <a href="#timeline" className="group/link inline-flex items-center gap-2 mt-[15px] font-mono text-[9px] font-bold tracking-[2px] text-text-muted transition-colors duration-300 hover:text-gold-dark">
+            EXPLORE CHRONICLES 
             <svg viewBox="0 0 24 24" className="w-3 h-3 transition-transform duration-300 group-hover/link:translate-x-1"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>
           </a>
         </div>
@@ -188,135 +184,15 @@ export default function App() {
             Every sacred dynasty begins with a quiet whisper. Discover ancient secrets under Giza.
           </p>
           <div className="inline-block">
-            <a href="#scans" className="inline-block px-6 py-2.5 rounded-[30px] border border-text-dark text-[10px] font-bold tracking-[2px] text-text-dark bg-transparent transition-all duration-300 hover:bg-text-dark hover:text-bg-color hover:shadow-[0_10px_20px_-8px_rgba(31,30,26,0.2)]">
-              EXPLORE TELEMETRY
+            <a href="#gallery" className="inline-block px-6 py-2.5 rounded-[30px] border border-text-dark text-[10px] font-bold tracking-[2px] text-text-dark bg-transparent transition-all duration-300 hover:bg-text-dark hover:text-bg-color hover:shadow-[0_10px_20px_-8px_rgba(31,30,26,0.2)]">
+              EXPLORE COLLECTIONS
             </a>
           </div>
         </div>
       </section>
 
-      {/* Radar Scan / Telemetry Simulator Section */}
-      <section id="scans" className="py-20 px-6 md:py-[120px] md:px-20 border-t border-border-color bg-bg-color relative z-10">
-        <div className="mb-[60px] text-left">
-          <span className="font-mono text-[10px] tracking-[3px] text-gold-dark font-bold block mb-2.5">01 // DEPTH TELEMETRY</span>
-          <h2 className="font-serif text-[32px] font-extrabold tracking-[1px] text-text-dark">SURFACE RADAR & SUB-SURFACE CAVITIES</h2>
-          <div className="w-[60px] h-[2px] bg-gold mt-[15px]"></div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-[60px] items-center">
-          <div className="text-left">
-            <p className="text-[14px] leading-relaxed text-text-muted mb-10">
-              Toggle the depth slider below to scan the subterranean layers beneath the Sphinx's eastern paws. High-frequency electromagnetic radar reveals hidden cavities.
-            </p>
-            
-            <div className="bg-white p-[24px_30px] rounded-xl border border-border-color mb-[30px]">
-              <div className="flex justify-between mb-3">
-                <span className="text-[10px] font-bold tracking-[2px] text-text-dark">TARGET DEPTH</span>
-                <span className="font-mono text-[12px] font-bold text-gold-dark">{selectedDepth}m</span>
-              </div>
-              <input 
-                type="range" 
-                min="5" 
-                max="60" 
-                value={selectedDepth}
-                onChange={(e) => setSelectedDepth(parseInt(e.target.value))}
-                className="w-full accent-gold-dark cursor-pointer my-2.5" 
-              />
-              <div className="flex justify-between font-mono text-[9px] text-text-muted">
-                <span>5m</span>
-                <span>20m</span>
-                <span>35m</span>
-                <span>50m</span>
-                <span>60m</span>
-              </div>
-            </div>
-
-            <div className="bg-[#141311] text-[#D0CFC9] rounded-xl p-[30px] border border-[rgba(197,168,128,0.2)]">
-              <div className="flex items-center gap-2.5 font-mono text-[10px] tracking-[2px] text-gold mb-[15px]">
-                <span className="w-[6px] height-[6px] bg-[#55c583] rounded-full animate-pulse-glow"></span>
-                <span>LIVE SENSOR FEED</span>
-              </div>
-              <p className="text-[13px] leading-relaxed text-[#E2E1DC] min-h-[60px] mb-5">
-                {getAnomalyLabel(selectedDepth)}
-              </p>
-              <div className="grid grid-cols-3 gap-[15px] border-t border-[rgba(255,255,255,0.1)] pt-[20px]">
-                <div className="flex flex-col">
-                  <span className="font-mono text-[8px] tracking-[1px] text-[#8C8A84]">SIGNAL STRENGTH</span>
-                  <span className="font-mono text-[13px] font-bold text-gold mt-[4px]">{(100 - selectedDepth + 12).toFixed(0)}%</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-mono text-[8px] tracking-[1px] text-[#8C8A84]">DENSITY COEFF.</span>
-                  <span className="font-mono text-[13px] font-bold text-gold mt-[4px]">{(selectedDepth > 28 && selectedDepth < 42) ? "8.4" : "2.1"} g/cm³</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-mono text-[8px] tracking-[1px] text-[#8C8A84]">THERMAL SIG.</span>
-                  <span className="font-mono text-[13px] font-bold text-gold mt-[4px]">{(18.2 + (selectedDepth / 10)).toFixed(1)}°C</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="w-full">
-            <div className="relative w-full aspect-[4/3] bg-[#0c0c0b] rounded-2xl border border-[rgba(197,168,128,0.25)] shadow-[inset_0_0_40px_rgba(0,0,0,0.8),_0_20px_40px_-15px_rgba(0,0,0,0.4)] overflow-hidden flex flex-col justify-between p-[20px]">
-              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[length:25px_25px] bg-center pointer-events-none"></div>
-              {/* Animated scanning line */}
-              <div className="absolute top-0 left-0 w-full h-[4px] bg-[linear-gradient(to_bottom,rgba(197,168,128,0),rgba(197,168,128,0.4)_50%,rgba(197,168,128,0))] animate-sweep pointer-events-none"></div>
-              
-              {/* Graphical radar scan illustration */}
-              <svg viewBox="0 0 400 300" className="w-full h-[80%] z-10">
-                {/* Surface line */}
-                <line x1="10" y1="50" x2="390" y2="50" stroke="rgba(255,255,255,0.2)" strokeWidth="1" strokeDasharray="3 3" />
-                <text x="15" y="42" fill="rgba(255,255,255,0.4)" fontSize="10" fontFamily="var(--font-mono)">SURFACE LEVEL (SAND)</text>
-                
-                {/* Sphinx paw mockup */}
-                <path d="M 50 50 Q 80 50 100 30 T 150 50" fill="none" stroke="rgba(197, 168, 128, 0.3)" strokeWidth="2" />
-                
-                {/* Target Depth Line */}
-                <line 
-                  x1="10" 
-                  y1={50 + (selectedDepth * 3.8)} 
-                  x2="390" 
-                  y2={50 + (selectedDepth * 3.8)} 
-                  stroke="var(--color-gold)" 
-                  strokeWidth="1.5" 
-                  className="transition-[y1,y2] duration-400 ease stroke-gold"
-                />
-                
-                <text 
-                  x="300" 
-                  y={42 + (selectedDepth * 3.8)} 
-                  fill="var(--color-gold)" 
-                  fontSize="10" 
-                  fontFamily="var(--font-mono)"
-                  className="transition-[y] duration-400 ease fill-gold"
-                >
-                  SCAN DEPTH: {selectedDepth}m
-                </text>
-
-                {/* Subterranean Chambers / Voids visual depending on depth */}
-                <g className="transition-opacity duration-500 ease" opacity={selectedDepth >= 30 && selectedDepth <= 40 ? 1 : 0.15}>
-                  <rect x="140" y="160" width="120" height="50" fill="rgba(197, 168, 128, 0.05)" stroke="var(--color-gold)" strokeWidth="1.5" strokeDasharray={selectedDepth >= 30 && selectedDepth <= 40 ? "0" : "4 4"} className="transition-opacity duration-500 ease" />
-                  <text x="150" y="190" fill="var(--color-gold)" fontSize="10" fontFamily="var(--font-mono)">CHAMBER OF RECORDS (VOID)</text>
-                  <circle cx="200" cy="185" r="3" fill="red" className="animate-pulse-glow" />
-                </g>
-
-                <g className="transition-opacity duration-500 ease" opacity={selectedDepth >= 15 && selectedDepth < 30 ? 1 : 0.2}>
-                  <circle cx="100" cy="110" r="15" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="1" strokeDasharray="3 3" />
-                  <circle cx="280" cy="120" r="10" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="1" strokeDasharray="3 3" />
-                  <text x="120" y="113" fill="rgba(255,255,255,0.3)" fontSize="8" fontFamily="var(--font-mono)">STRUCTURAL VOID A</text>
-                  <text x="300" y="123" fill="rgba(255,255,255,0.3)" fontSize="8" fontFamily="var(--font-mono)">VOID B</text>
-                </g>
-              </svg>
-
-              <div className="flex justify-between font-mono text-[8px] tracking-[1.5px] text-[rgba(197,168,128,0.6)] border-t border-[rgba(255,255,255,0.05)] pt-[10px] z-10">
-                <span>SYSTEM: NOMINAL</span>
-                <span>FREQ: 1.28 GHz</span>
-                <span>AZIMUTH: 312°</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Scroll Sequence Section */}
+      <ScrollSequence />
 
       {/* Interactive Timeline Section */}
       <section id="timeline" className="py-20 px-6 md:py-[120px] md:px-20 border-t border-border-color bg-bg-color relative z-10">
