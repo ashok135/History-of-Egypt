@@ -114,7 +114,7 @@ export default function ScrollSequence() {
       scrollTrigger: {
         trigger: containerRef.current,
         start: 'top top',
-        end: '+=6000', // Pinned scroll travel height (enlarged for slower scroll playback)
+        end: '+=4000', // Pinned scroll travel height (made faster)
         scrub: 0.5,
         pin: true,
         anticipatePin: 1,

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import ScrollSequence from './components/ScrollSequence'
+import DoorSequence from './components/DoorSequence'
 import Interactive3DGrid from './components/Interactive3DGrid'
 
 interface PharaohDetails {
@@ -193,6 +194,9 @@ export default function App() {
 
       {/* Scroll Sequence Section */}
       <ScrollSequence />
+
+      {/* Door Sequence Section */}
+      <DoorSequence />
 
       {/* Interactive Timeline Section */}
       <section id="timeline" className="py-20 px-6 md:py-[120px] md:px-20 border-t border-border-color bg-bg-color relative z-10">
